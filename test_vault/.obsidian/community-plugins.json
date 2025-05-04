@@ -3,5 +3,6 @@
   "obsidian-tasks-plugin",
   "obsidian-kanban",
   "obsidian-projects",
-  "obsidian-local-rest-api"
+  "obsidian-local-rest-api",
+  "mcp-tools"
 ]
