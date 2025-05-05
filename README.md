@@ -17,24 +17,33 @@ It is managed as a Git submodule within the main `career-agent` repository.
     *   `Projects`
     *   `MCP Tools` (by jacksteamdev)
 5.  **Configure Local REST API:** Ensure the `Local REST API` plugin is configured and has an API key generated.
-6.  **Create `.env` File:** Create a file named `.env` in this directory (`tools/obsidian-pm/.env`) with the following content, replacing the placeholder with the actual API key from the `Local REST API` plugin settings:
-    ```
-    OBSIDIAN_API_KEY=YOUR_API_KEY_HERE
-    ```
-    *(Refer to `.env.example`)*. **Do not commit the `.env` file.**
-7.  **Download MCP Server Binary:** The `MCP Tools` plugin currently fails to download its server component (HTTP 404). Download it manually:
+6.  **Download MCP Server Binary (Manual Step Required):** The `MCP Tools` plugin currently fails to download its server component (HTTP 404). Download it manually:
     *   Go to [MCP Tools Releases](https://github.com/jacksteamdev/obsidian-mcp-tools/releases).
     *   Download the appropriate binary for your platform (e.g., `mcp-server-linux` for Linux v0.2.23).
     *   Place the downloaded binary inside `test_vault/.obsidian/plugins/obsidian-mcp-tools/bin/`.
     *   Make the binary executable (e.g., `chmod +x test_vault/.obsidian/plugins/obsidian-mcp-tools/bin/mcp-server-linux`).
 
-## Running the MCP Server (Manual)
+## Usage with Cursor
 
-Due to plugin issues, the MCP server must currently be run manually from the *root of the submodule* (`tools/obsidian-pm/`):
+The MCP server is configured to run automatically via Cursor's MCP settings (`~/.cursor/mcp.json`). This configuration:
+- Points to the downloaded binary.
+- Sets the required `OBSIDIAN_API_KEY` environment variable (using the key from the `Local REST API` plugin).
+- Makes the tools available to Cursor agents (prefixed with `mcp_obsidian-tools_...`).
 
-```bash
-# Load .env file and execute server binary
-export $(grep -v '^#' .env | xargs) && ./test_vault/.obsidian/plugins/obsidian-mcp-tools/bin/mcp-server-linux
-```
+**No manual server execution or `.env` file creation is needed for standard use within the Cursor/Agent workflow.**
 
-This command sources the `OBSIDIAN_API_KEY` from the `.env` file and executes the server, which communicates via stdio.
+## Running the MCP Server Manually (Optional - for Debugging)
+
+If you need to run the server manually outside of Cursor (e.g., for debugging):
+
+1.  **Create `.env` File:** Create a file named `.env` in this directory (`tools/obsidian-pm/.env`) with the following content, replacing the placeholder with the actual API key from the `Local REST API` plugin settings:
+    ```
+    OBSIDIAN_API_KEY=YOUR_API_KEY_HERE
+    ```
+    *(Refer to `.env.example`)*. **Do not commit the `.env` file.**
+2.  **Execute from Submodule Root:** Run the following command from the *root of the submodule* (`tools/obsidian-pm/`):
+    ```bash
+    # Load .env file and execute server binary
+    export $(grep -v '^#' .env | xargs) && ./test_vault/.obsidian/plugins/obsidian-mcp-tools/bin/mcp-server-linux
+    ```
+    This command sources the API key and executes the server, which communicates via stdio.

@@ -8,3 +8,7 @@ Priority: Medium
 Status: Pending
 
 - [ ] Complete initial setup. 
+
+
+---
+Test append via MCP.
