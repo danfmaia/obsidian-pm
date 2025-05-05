@@ -1,0 +1,5 @@
+# Ignore environment variables file
+.env
+
+# Ignore downloaded MCP server binary
+test_vault/.obsidian/plugins/obsidian-mcp-tools/bin/ 
